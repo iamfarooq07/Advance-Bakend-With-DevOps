@@ -61,3 +61,64 @@ app.listen(PORT, async () => {
     await connectDB();
     console.log(`Server running on port ${PORT}`);
 });
+
+// Resl Project Redis Used
+
+// import mongoose from "mongoose";
+// const userSchemaTwo = new mongoose.Schema({
+//     name: String,
+//     email: String,
+//     password: String
+// }, { timestamps: true })
+// const UserTwo = mongoose.model("UserTwo", userSchemaTwo);
+
+// app.post("/create-redis", async (req, res) => {
+//     const { name, email, password } = req.body;
+
+//     const user = await UserTwo.create({
+//         name, email, password
+//     });
+
+
+//     await redis.del("user:all");
+
+//     res.status(201).json({ message: "redis Api Success", user })
+// });
+
+// app.get("/get-redis", async (req, res) => {
+//     try {
+//         // await redis.del("user:all");
+//         const redisData = await redis.get("user:all");
+
+//         // Redis HIT
+//         if (redisData) {
+//             const users = JSON.parse(redisData);
+
+//             return res.status(200).json({
+//                 message: "Data From Redis",
+//                 users
+//             });
+//         }
+
+//         // Redis MISS → MongoDB
+//         const users = await UserTwo.find({});
+
+//         // MongoDB data → Redis
+//         await redis.set(
+//             "user:all",
+//             JSON.stringify(users)
+//         );
+
+//         return res.status(200).json({
+//             message: "Data From MongoDB",
+//             users
+//         });
+
+//     } catch (error) {
+//         return res.status(500).json({
+//             message: "Server Error",
+//             error: error.message
+//         });
+//     }
+// });
+// =================
