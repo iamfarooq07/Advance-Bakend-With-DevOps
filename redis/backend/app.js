@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./src/config/db.js";
-import { redis } from "./src/config/redis.js"; // Route ya controller me use karne ke liye import kar sakte hain
+import { redis } from "./src/config/redis.js";
+import { User } from "./src/models/user.model.js";
+import { emailQueue } from "./queue.js";
 
 dotenv.config();
 
@@ -12,8 +14,19 @@ const PORT = 5000;
 app.use(express.json());
 
 // Routes
-app.get("/", (req, res) => {
-    res.send("Hello World");
+app.post("/queue", async (req, res) => {
+    const { name, email, password } = req.body;
+
+    const users = await User.create({
+        name, email, password
+    })
+
+    const job = await emailQueue.add("sendEmail", {
+        name,
+        email,
+    });
+
+    res.status(201).json({ message: "Create Successfully", users, job_id: job.id });
 });
 
 // app.use(route);
