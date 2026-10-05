@@ -10,3 +10,8 @@ services:
     build: ./backend/serverOne
     ports:
       - "3001:3000"
+
+  servertwo:
+    build: ./backend/serverTwo
+    ports:
+      - "5001:5000"    
