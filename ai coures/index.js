@@ -12,14 +12,28 @@ const ai = new GoogleGenAI({
 });
 
 app.post("/ai", async (req, res) => {
-
     try {
+        const { input } = req.body;
+
+        if (!input || input.trim() === "") {
+            return res.status(400).json({
+                message: "Input is required",
+            });
+        }
+
         const response = await ai.models.generateContent({
-            model: "gemini-3.8-flash",
+            model: "gemini-3.5-flash-lite",
             contents: input,
+
             config: {
-                systemInstruction:
-                    "You are a senior backend developer. Explain concepts in simple Roman Urdu with practical JavaScript examples.",
+                systemInstruction: `
+      Your name is Nova.
+
+      You are a senior backend developer.
+      Explain concepts in simple English with practical JavaScript examples.
+
+      Always identify yourself as Nova when the user asks your name.
+    `,
             },
         });
 
